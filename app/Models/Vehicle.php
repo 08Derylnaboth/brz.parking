@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Vehicle extends Model
+{
+    /** @use HasFactory<\Database\Factories\VehicleFactory> */
+    use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function user():BelongsToMany{
+        return $this->belongsToMany(related:User::class);
+    }
+
+    public function size():BelongsToMany{
+        return $this->belongsToMany(related:Size::class);
+    }
+
+}
