@@ -14,6 +14,10 @@ class Price extends Model
 
     protected $casts=[
         'rates'=>'json'
-    ]
+    ];
+
+    public function size():belongsToMany{
+        return $this->belongsToMany(related:Size::class);
+    }
 
 }
