@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use HandlesAuthorization;
 
 class ReservationPolicy
 {
@@ -21,7 +22,7 @@ class ReservationPolicy
      */
     public function view(User $user, Reservation $reservation): bool
     {
-        return false;
+        return (int)$user->id==$reservation->user_id;
     }
 
     /**

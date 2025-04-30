@@ -12,41 +12,29 @@ class Spot extends Model
 
     protected $guarded = ['id'];
 
-    public function spotAttributes():BelongsToMany{
-        return $this->belongsToMany(related:SpotAttribute::class);
+    public function spotAttributes(): BelongsToMany
+    {
+        return $this->belongsToMany(SpotAttribute::class);
     }
 
-    public function garage():BelongsToMany{
-        return $this->belongsToMany(related:Garage::class);
+    public function garage(): BelongsToMany
+    {
+        return $this->belongsToMany(Garage::class);
     }
 
-    public function reservation():HasMany{
-        return $this->hasMany(related:Reservation::class);
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
     }
 
-    public function size():BelongsToMany{
-        return $this->belongsToMany(related:Size::class);
+    public function size(): BelongsToMany
+    {
+        return $this->belongsToMany(Size::class);
     }
 
-    public function scopeFilter(Builder $query,array $filters){
-        query->when(Arr::has(filters,['start','end'],function(Builder $query)use($filters){
-            $query->whereDoesntHave(relation:'reservation',function(Builder $query)use($filters){
-               $query->where([
-                ['start','<',Carbon::parse(Arr::get($filters,key:'end'))],
-                ['end','<',Carbon::parse(Arr::get($filters,key:'start'))],
-
-               ]);
-               // $start=Carbon::parse(Arr::get($filters,key:'start'));
-                // $end=Carbon::parse(Arr::get($filters,key:'end'));
-
-                // $query->whereBetween(column:'start',[$start,$end])
-                // ->orWhereBetween(column:'end',[$start,$end])
-                // ->orWhereRaw(sql:'?BETWEEN start and end',[$start])
-                // ->orWhereRaw(sql:'?BETWEEN start and end',[$end])
-
-
-            });
-        }));
+    public function scopeFilter(Builder $query, array $filters): Builder
+    {
+        return (new SpotFilters($filters))->filter($query);
     }
 
 }

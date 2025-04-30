@@ -16,4 +16,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('reservations', [ReservationController::class, 'store']);
     Route::patch('reservations/{reservation}', [ReservationController::class, 'update']);
     Route::delete('reservations/{reservation}', [ReservationController::class, 'destroy']);
+    Route::post('/calculate-payment', PaymentController::class);
+
 });
